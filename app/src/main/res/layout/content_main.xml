@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/brown"
+    tools:context="com.example.maliha.socially.MainActivity"
+    tools:showIn="@layout/app_bar_main"
+    >
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/so1"
+        android:layout_marginBottom="98dp"
+        android:layout_above="@+id/personal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/fnf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
+        android:text="FnF"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/work"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/fnf"
+        android:layout_alignRight="@+id/fnf"
+        android:layout_below="@+id/fnf"
+        android:layout_marginTop="69dp"
+        android:text="Work" />
+
+    <Button
+        android:id="@+id/personal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/work"
+        android:layout_alignStart="@+id/work"
+        android:layout_below="@+id/work"
+        android:layout_marginTop="69dp"
+        android:text="Personal" />
+</RelativeLayout>
