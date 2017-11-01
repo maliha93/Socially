@@ -3,11 +3,16 @@ package com.example.maliha.socially;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -29,6 +35,13 @@ import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
+    private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
+
+    private ImageView interceptedNotificationImageView;
+    private ImageChangeBroadcastReceiver imageChangeBroadcastReceiver;
+    private AlertDialog enableNotificationListenerAlertDialog;
     private PendingIntent pendingIntent;
     private AlarmManager manager;
     @Override
@@ -84,6 +97,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        /*if(!isNotificationServiceEnabled()){
+            enableNotificationListenerAlertDialog = buildNotificationServiceAlertDialog();
+            enableNotificationListenerAlertDialog.show();
+        }
+        imageChangeBroadcastReceiver = new ImageChangeBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.example.maliha.socially");
+        registerReceiver(imageChangeBroadcastReceiver,intentFilter);*/
         schedule();
 
     }
@@ -100,13 +121,7 @@ public class MainActivity extends AppCompatActivity
         long firstMillis = System.currentTimeMillis(); // alarm is set right away
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP,firstMillis,10000,pIntent);
-        /*if (android.os.Build.VERSION.SDK_INT >= 19) {
-            alarm.setExact(AlarmManager.RTC_WAKEUP, 1000, pIntent);
-        } else {
-            alarm.set(AlarmManager.RTC_WAKEUP, 1000, pIntent);
-        }*/
-        /*alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
-                1000, pIntent);*/
+
     }
 
 
@@ -151,6 +166,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_stats) {
             // Handle the camera action
         } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(MainActivity.this, NotificationSettings.class);
+            startActivity(intent);
 
         }
         else if(id==R.id.nav_friends){
@@ -170,4 +187,78 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(imageChangeBroadcastReceiver);
+    }
+
+    private void changeInterceptedNotificationImage(int notificationCode){
+        switch(notificationCode){
+            case NotificationListenerExampleService.InterceptedNotificationCode.FACEBOOK_CODE:
+               // interceptedNotificationImageView.setImageResource(R.drawable.facebook_logo);
+                break;
+            case NotificationListenerExampleService.InterceptedNotificationCode.INSTAGRAM_CODE:
+               // interceptedNotificationImageView.setImageResource(R.drawable.instagram_logo);
+                break;
+            case NotificationListenerExampleService.InterceptedNotificationCode.WHATSAPP_CODE:
+               // interceptedNotificationImageView.setImageResource(R.drawable.whatsapp_logo);
+                break;
+            case NotificationListenerExampleService.InterceptedNotificationCode.OTHER_NOTIFICATIONS_CODE:
+                //interceptedNotificationImageView.setImageResource(R.drawable.other_notification_logo);
+                break;
+        }
+    }
+
+    private boolean isNotificationServiceEnabled(){
+        String pkgName = getPackageName();
+        final String flat = Settings.Secure.getString(getContentResolver(),
+                ENABLED_NOTIFICATION_LISTENERS);
+        if (!TextUtils.isEmpty(flat)) {
+            final String[] names = flat.split(":");
+            for (int i = 0; i < names.length; i++) {
+                final ComponentName cn = ComponentName.unflattenFromString(names[i]);
+                if (cn != null) {
+                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public class ImageChangeBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int receivedNotificationCode = intent.getIntExtra("Notification Code",-1);
+            changeInterceptedNotificationImage(receivedNotificationCode);
+        }
+    }
+
+    private AlertDialog buildNotificationServiceAlertDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Notification Service");
+        alertDialogBuilder.setMessage("Enable?");
+        alertDialogBuilder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        startActivity(new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS));
+                    }
+                });
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // If you choose to not enable the notification listener
+                        // the app. will not work as expected
+                    }
+                });
+        return(alertDialogBuilder.create());
+    }
+
+
 }
+
+
+

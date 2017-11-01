@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.maliha.socially.NotificationSettings">
+
+
+    <TextView
+        android:id="@+id/fnf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="54dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="30dp"
+        android:text="FnF" />
+
+    <Switch
+        android:id="@+id/fnf_fb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fnf"
+        android:layout_alignStart="@+id/fnf"
+        android:layout_below="@+id/fnf"
+        android:layout_marginTop="22dp"
+        android:checked="true"
+        android:text="Facebook" />
+
+    <Switch
+        android:id="@+id/fnf_messenger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/fnf_fb"
+        android:layout_alignRight="@+id/fnf_fb"
+        android:layout_below="@+id/fnf_fb"
+        android:layout_marginTop="23dp"
+        android:checked="true"
+        android:text="Messenger" />
+
+    <Switch
+        android:id="@+id/fnf_whatsapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fnf_messenger"
+        android:layout_alignStart="@+id/fnf_messenger"
+        android:layout_below="@+id/fnf_messenger"
+        android:layout_marginTop="17dp"
+        android:checked="true"
+        android:text="WhatsApp" />
+
+    <Switch
+        android:id="@+id/fnf_viber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/fnf_whatsapp"
+        android:layout_alignRight="@+id/fnf_whatsapp"
+        android:layout_below="@+id/fnf_whatsapp"
+        android:layout_marginTop="23dp"
+        android:checked="true"
+        android:text="Viber" />
+
+    <TextView
+        android:id="@+id/personal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fnf_viber"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp"
+        android:text="Personal" />
+
+    <Switch
+        android:id="@+id/per_fb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/personal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:checked="true"
+        android:text="Facebook" />
+
+    <Switch
+        android:id="@+id/per_messenger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/per_fb"
+        android:layout_alignStart="@+id/per_fb"
+        android:layout_below="@+id/per_fb"
+        android:layout_marginTop="17dp"
+        android:checked="true"
+        android:text="Messenger" />
+
+    <Switch
+        android:id="@+id/per_whatsapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/per_messenger"
+        android:layout_alignRight="@+id/per_messenger"
+        android:layout_below="@+id/per_messenger"
+        android:layout_marginTop="21dp"
+        android:checked="true"
+        android:text="WhatsApp" />
+
+    <Switch
+        android:id="@+id/per_viber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:checked="true"
+        android:text="Viber" />
+
+    <Switch
+        android:id="@+id/work_fb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Facebook"
+        android:layout_alignBaseline="@+id/fnf_fb"
+        android:layout_alignBottom="@+id/fnf_fb"
+        android:layout_toRightOf="@+id/per_fb"
+        android:checked="true"
+        android:layout_toEndOf="@+id/per_fb" />
+
+    <Switch
+        android:id="@+id/work_messenger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/work_fb"
+        android:layout_alignStart="@+id/work_fb"
+        android:layout_alignTop="@+id/fnf_messenger"
+        android:checked="true"
+        android:text="Messenger" />
+
+    <Switch
+        android:id="@+id/work_whatsapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fnf_viber"
+        android:layout_alignLeft="@+id/work_fb"
+        android:layout_alignStart="@+id/work_fb"
+        android:checked="true"
+        android:text="WhatsApp" />
+
+    <Switch
+        android:id="@+id/work_viber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/work_whatsapp"
+        android:layout_alignStart="@+id/work_whatsapp"
+        android:layout_alignTop="@+id/fnf_viber"
+        android:checked="true"
+        android:text="Viber" />
+
+    <TextView
+        android:id="@+id/work"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fnf_fb"
+        android:layout_alignEnd="@+id/work_viber"
+        android:layout_alignRight="@+id/work_viber"
+        android:text="Work" />
+
+</RelativeLayout>
