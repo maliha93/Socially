@@ -49,7 +49,7 @@ public class NotificationReceiver {
                 final String ss=s;
                // loading.dismiss();
                 //Toast.makeText(context,s, Toast.LENGTH_LONG).show();
-                if(!s.contains("nothing")){
+                if(!s.contains("nothing") && s.length()>1){
                     //Toast.makeText(context,s, Toast.LENGTH_LONG).show();
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context.getApplicationContext());
