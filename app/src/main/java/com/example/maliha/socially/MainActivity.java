@@ -1,5 +1,10 @@
 package com.example.maliha.socially;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,10 +22,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private PendingIntent pendingIntent;
+    private AlarmManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,17 +46,22 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
 
+
+
+    }
 
 
     @Override
     public void onStart() {
         super.onStart();
+        final String s = getIntent().getStringExtra("email");
+
         Button button = (Button) findViewById(R.id.fnf);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,clickActivity.class);
+                intent.putExtra("email",s);
                 startActivity(intent);
             }
         });
@@ -55,6 +70,7 @@ public class MainActivity extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,clickActivity.class);
+                intent.putExtra("email",s);
                 startActivity(intent);
             }
         });
@@ -63,13 +79,35 @@ public class MainActivity extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,clickActivity.class);
+                intent.putExtra("email",s);
                 startActivity(intent);
             }
         });
 
+        schedule();
+
     }
 
+    public void schedule(){
 
+        String s=getIntent().getStringExtra("email");
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intent.putExtra("email",s);
+        // Create a PendingIntent to be triggered when the alarm goes off
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long firstMillis = System.currentTimeMillis(); // alarm is set right away
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP,firstMillis,10000,pIntent);
+        /*if (android.os.Build.VERSION.SDK_INT >= 19) {
+            alarm.setExact(AlarmManager.RTC_WAKEUP, 1000, pIntent);
+        } else {
+            alarm.set(AlarmManager.RTC_WAKEUP, 1000, pIntent);
+        }*/
+        /*alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
+                1000, pIntent);*/
+    }
 
 
     @Override
